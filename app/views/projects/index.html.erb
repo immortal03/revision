@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<div class="display-flex-space-between">
+  <h3>Projects</h3>
+</div>
+
+<%= form_tag url: projects_path do %>
+  <div class="display-flex-space-between">
+    <%= text_field_tag :name, '', placeholder: 'insert project name', class: 'form-control', required: true %>
+    <%= submit_tag 'Create', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+<br>
+<br>
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th>
+      <%= check_box_tag "select-all-projects" %>
+    </th>
+    <th>Name</th>
+    <th>Tag</th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% unless @projects.length > 0 %>
+    <tr>
+      <td colspan="4" class="text-center">
+        <p>No projects added yet.</p>
+      </td>
+    </tr>
+  <% end %>
+
+  <% @projects.each do |project| %>
+    <tr>
+      <td>
+        <%= check_box_tag "select-#{project.id}" %>
+      </td>
+      <td><%= project.name %></td>
+      <td><%= project.tag %></td>
+      <td>
+        <%= link_to 'Show', project %>
+        <%= link_to 'Edit', edit_project_path(project) %>
+        <%= link_to 'Destroy', project, method: :delete, data: {confirm: 'Are you sure?'} %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Project', new_project_path %>

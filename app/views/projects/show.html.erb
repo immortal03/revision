@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Showing tasks list for <%= @project.name %></h3>
+
+<br>
+<br>
+<%= form_tag tasks_path do %>
+  <div class="display-flex-space-between">
+    <%= hidden_field_tag :project_id, @project.id %>
+    <%= text_field_tag :name, '', placeholder: 'insert task name', class: 'form-control', required: true %>
+    <%= submit_tag 'Create', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+<br>
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Prioritize</th>
+    <th>Done</th>
+    <th>Deadline</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% unless @tasks.length > 0 %>
+    <tr>
+      <td colspan="6" class="text-center">
+        <p>No tasks added for this project.</p>
+      </td>
+    </tr>
+  <% end %>
+
+  <% @tasks.each do |task| %>
+    <tr>
+      <td><%= task.name %></td>
+      <td><%= task.prioritize %></td>
+      <td><%= task.done %></td>
+      <td><%= task.deadline %></td>
+      <td>
+        <%= link_to 'Done', task %>
+        <%= link_to 'Prioritize', task %>
+        <%= link_to 'Edit', edit_task_path(task) %>
+        <%= link_to 'Destroy', task, method: :delete, data: {confirm: 'Are you sure?'} %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
